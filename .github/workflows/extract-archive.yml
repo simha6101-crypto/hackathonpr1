@@ -1,0 +1,30 @@
+o commit"name: Extract Archive
+
+on:
+  workflow_dispatch:
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Extract ZIP file
+        run: |
+          unzip -o "hacakathon project.zip"
+          ls -la
+      
+      - name: Commit extracted files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Extract hackathon project archive" || echo "No changes t
+      
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
